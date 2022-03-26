@@ -6,13 +6,13 @@ import pygame
 
 def initial_map():
     map = [[1,1,1,0,0,1,1,1,1,1],
-           [1,0,1,1,1,1,0,0,0,0],
-           [0,0,0,0,0,1,0,0,1,0],
-           [1,1,1,0,0,1,1,1,1,0],
-           [1,0,0,0,0,1,0,0,0,0],
-           [1,1,1,0,0,1,0,0,1,1],
-           [0,0,1,1,1,1,1,0,1,0],
-           [0,0,1,0,0,0,1,0,1,0],
+           [1,0,1,1,1,1,0,1,1,0],
+           [1,0,1,0,0,1,0,0,1,0],
+           [1,1,1,1,1,1,1,1,1,0],
+           [1,0,1,0,0,1,1,0,1,0],
+           [1,1,1,1,0,1,0,0,1,1],
+           [0,0,1,1,1,1,1,1,1,0],
+           [0,0,1,0,1,0,1,0,1,0],
            [0,1,1,1,1,0,1,1,1,0],
            [1,1,0,0,0,0,0,0,1,1]]
     birth_place = []
@@ -214,12 +214,17 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT: sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_g:
-                    bob.move()
+                    if bob.state == end_point:
+                        bob = agent()
+                        bob.epuse = 0
+                    else:
+                        bob.move()
 
         screen.fill(BLACK)
         for i in range(len(map)):
             for j in range(len(map[i])):
                 pygame.draw.rect(screen, BLACK if map[i][j] == 0 else WHITE, Rects[j + i * len(map[j])])
+
         pygame.draw.rect(screen, YELLOW, (((end_point % 10 + 1) * 50, (end_point // 10 + 1) * 50), BLOCK))
         pygame.draw.rect(screen, RED, (((bob.state % 10 + 1) * 50, (bob.state // 10 + 1) * 50), BLOCK))
         pygame.display.update()
